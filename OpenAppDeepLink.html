@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Test</title>
+    <script>
+        window.onload = function() {
+            const appUrl = "kvbbank://kvb.com/PERLOAN?RedirectTo=IGFwcHppbGxvbi5hcHAuY2FsbEdldEFPU1Rva2VuY29uZmlybWF0aW9uQ0IodHJ1ZSk7&isPostLogin=N"; // Replace with your custom URL scheme
+            const fallbackUrl = "https://www.kvb.co.in/personal/digital-products/kvb-dlite-mobile-banking/"; // Fallback URL if app is not installed
+
+            // Start time to measure if the app opens
+            const startTime = Date.now();
+            
+            // Attempt to open the app using window.location
+            window.location = appUrl;
+
+            // Set a timeout to check if the app opened or not
+            setTimeout(function() {
+                const endTime = Date.now();
+                
+                // If the time difference is less than 1500ms, assume the app did not open
+                if (endTime - startTime < 1500) {
+                    // Redirect to the fallback URL if the app did not open
+                    window.location.href = fallbackUrl;
+                } else {
+                    // Close the tab if the app opened successfully
+                    window.close();
+                }
+            }, 1000);
+        };
+    </script>
+</head>
+<body>
+    <h2>Attempting to open the app...</h2>
+    <p>If the app is installed, it will open automatically. Otherwise, you'll be redirected shortly.</p>
+</body>
+</html>
