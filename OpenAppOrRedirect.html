@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Test</title>
+    <script>
+        function openAppOrRedirect() {
+            const appUrl = "kvbbank://kvb.com/PERLOAN"; // Custom URL scheme or universal link
+            const fallbackUrl = "https://play.google.com/store/apps/details?id=com.kvb.mobilebanking"; // Fallback URL
+
+            let hasAppOpened = false;
+
+            // Add event listener to detect if the tab becomes hidden
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden') {
+                    hasAppOpened = true;
+                }
+            });
+
+            // Try to open the app
+            window.location.href = appUrl;
+
+            // Check after 1 second if the app did not open
+            setTimeout(function() {
+                if (!hasAppOpened) {
+                    // If the app did not open, redirect to the fallback URL
+                    window.location.href = fallbackUrl;
+                } else {
+                    // If the app opened, close the browser tab
+                    window.close();
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="openAppOrRedirect()">
+    <h2>Attempting to open the app...</h2>
+    <p>If the app is installed, it will open automatically. Otherwise, you'll be redirected shortly.</p>
+</body>
+</html>
