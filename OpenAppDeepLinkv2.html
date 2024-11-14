@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Test</title>
+    <script>
+        // Function to get a specific query parameter from the current page's URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        window.onload = function() {
+            // Get the appUrl and fallbackUrl from the query parameters
+            let appUrl = getQueryParam("appUrl");
+            const fallbackUrl = getQueryParam("fallbackUrl") || "https://www.kvb.co.in/personal/digital-products/kvb-dlite-mobile-banking/";
+
+            // If appUrl is missing, show an error message and exit
+            if (!appUrl) {
+                alert("Error: appUrl parameter is missing!");
+                return;
+            }
+
+            // Get additional parameters dynamically from the query string
+            const redirectTo = getQueryParam("RedirectTo");
+            const isPostLogin = getQueryParam("isPostLogin");
+
+            // Construct extra query parameters string if they exist
+            let extraQueryString = "";
+            if (redirectTo) extraQueryString += `RedirectTo=${encodeURIComponent(redirectTo)}`;
+            if (isPostLogin) {
+                extraQueryString += (extraQueryString ? "&" : "") + `isPostLogin=${encodeURIComponent(isPostLogin)}`;
+            }
+
+            // Append extra parameters to the appUrl if they exist
+            if (extraQueryString) {
+                if (appUrl.includes("?")) {
+                    appUrl += "&" + extraQueryString;
+                } else {
+                    appUrl += "?" + extraQueryString;
+                }
+            }
+
+            console.log("Final appUrl:", appUrl); // For debugging
+
+            // Start time to measure if the app opens
+            const startTime = Date.now();
+
+            // Attempt to open the app using window.location
+            window.location = appUrl;
+
+            // Set a timeout to check if the app opened or not
+            setTimeout(function() {
+                const endTime = Date.now();
+
+                // If the time difference is less than 1500ms, assume the app did not open
+                if (endTime - startTime < 1500) {
+                    // Redirect to the fallback URL if the app did not open
+                    window.location.href = fallbackUrl;
+                } else {
+                    // Close the tab if the app opened successfully
+                    window.close();
+                }
+            }, 1000);
+        };
+    </script>
+</head>
+<body>
+    <h2>Attempting to open the app...</h2>
+    <p>If the app is installed, it will open automatically. Otherwise, you'll be redirected shortly.</p>
+</body>
+</html>
