@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kvb.mobilebankinguat",
+      "sha256_cert_fingerprints": ["59:0F:BE:6F:FE:A9:75:ED:F5:09:EC:93:D7:05:C8:C7:F8:C9:F2:CA:95:7D:DF:1F:F0:65:FC:B7:0E:4F:92:BA"]
+    }
+  }
+]
+
